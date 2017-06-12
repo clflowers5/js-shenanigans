@@ -16,25 +16,8 @@ function limitCheck(number) {
   }
 }
 
-function convertThousands(number) {
-  limitCheck(number);
-  if (number >= 1000) {
-    return convertOnes(Math.floor(number / 1000)) + ' thousand ' + convertHundreds(number % 1000);
-  } else {
-    return convertHundreds(number);
-  }
-}
-
-function convertHundreds(number) {
-  if (number >= 100) {
-    return convertOnes(Math.floor(number / 100)) + ' hundred ' + convertOnes(number % 100);
-  } else {
-    return convertOnes(number);
-  }
-}
 
 function convertOnes(number) {
-  console.log(number);
   if (number < 10) {
     return ONES[number];
   } else if (number < 20) {
@@ -46,17 +29,18 @@ function convertOnes(number) {
 
 function convert(number) {
 
-  console.log(Object.keys(lookup));
-  return Object.keys(lookup).reduce((result, item) => {
-    console.log('first ' + result + ' ' + item);
-   if (number >= lookup[result]) {
-     console.log(number);
-     console.log(lookup[result]);
-     return result += convertOnes(Math.floor(number / lookup[result])) + ` ${result} `;
-   } else {
-     return result;
-   }
-  });
+  const result = Object.keys(lookup).reduce((result, item) => {
+    if (number >= lookup[item]) {
+      result.push(convertOnes(Math.floor(number / lookup[item])) + ` ${item}`);
+      number = number - Math.floor(number / lookup[item]) * lookup[item];
+      return result;
+    } else {
+      return result;
+    }
+  }, []);
+
+  result.push(convertOnes(number));
+  return result.join(' ');
 }
 
 module.exports = convert;
@@ -68,3 +52,4 @@ console.log(convert(22));
 console.log(convert(225));
 console.log(convert(260));
 console.log(convert(7452));
+console.log(convert(317452)); // currently breaks
