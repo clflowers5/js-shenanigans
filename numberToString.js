@@ -12,7 +12,7 @@ const TENS = ['', '', 'twenty', 'thirty', 'fourty', 'fifty', 'sixty', 'seventy',
 const LIMIT = LOOKUP['million'] * 1000 - 1;
 
 function limitCheck(number) {
-  if (number >= LIMIT) {
+  if (number > LIMIT) {
     throw new Error('Provided number is bigger than limit of ' + LIMIT);
   }
 }
